@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_VERBOSE_MAKEFILE 1) # to see all make process
-
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project( cuda_emicp_softassign )
 
 SET_PROPERTY(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
@@ -26,6 +27,8 @@ endif()
 find_package(Boost 1.54 REQUIRED)
 
 find_package(CUDA 6.5 REQUIRED)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} --generate-code arch=compute_61,code=sm_61 --std=c++11)
+set_directory_properties( PROPERTIES COMPILE_DEFINITIONS "" )
 include_directories ( ${CUDA_TOOLKIT_ROOT_DIR}/samples/common/inc/ )
 
 message("CUDA_VERSION: " ${CUDA_VERSION} )

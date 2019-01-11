@@ -423,12 +423,12 @@ void softassign(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target,
 
 #define START_TIMER(timer) \
   if(!param.notimer){ \
-      CUDA_SAFE_CALL( cudaThreadSynchronize() );\
+      CUDA_SAFE_CALL( cudaDeviceSynchronize());\
       CUT_SAFE_CALL(sdkStartTimer(&timer)); \
   }
 #define STOP_TIMER(timer) \
   if(!param.notimer){ \
-      CUDA_SAFE_CALL( cudaThreadSynchronize() );\
+      CUDA_SAFE_CALL( cudaDeviceSynchronize());\
       CUT_SAFE_CALL(sdkStopTimer(&timer)); \
   }
 
@@ -466,7 +466,7 @@ void softassign(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target,
 
 
   CUT_SAFE_CALL(sdkCreateTimer(&timerTotal));
-  CUDA_SAFE_CALL( cudaThreadSynchronize() );
+  CUDA_SAFE_CALL( cudaDeviceSynchronize());
   CUT_SAFE_CALL(sdkStartTimer(&timerTotal));
 
 
@@ -822,7 +822,7 @@ void softassign(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target,
   }
 
 
-  CUDA_SAFE_CALL( cudaThreadSynchronize() );
+  CUDA_SAFE_CALL( cudaDeviceSynchronize());
   CUT_SAFE_CALL(sdkStopTimer(&timerTotal));
 
   fprintf(stderr, "comping time: %.10f [s]\n", sdkGetTimerValue(&timerTotal) / 1000.0f);
@@ -882,5 +882,5 @@ void softassign(const pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_target,
 
   delete [] h_one;
 
-  CUDA_SAFE_CALL( cudaThreadExit() );
+  CUDA_SAFE_CALL( cudaDeviceReset() );
 }
